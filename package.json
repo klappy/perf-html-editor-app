@@ -16,7 +16,7 @@
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-scripts": "4.0.0",
-    "simple-text-editor-rcl": "6.14.2",
+    "simple-text-editor-rcl": "6.16.0",
     "use-deep-compare": "1.1.0"
   },
   "devDependencies": {

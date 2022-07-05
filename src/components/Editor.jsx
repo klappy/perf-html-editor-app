@@ -18,7 +18,7 @@ export default function Editor() {
       <Skeleton key='1' variant="text" height="8em" sx={{ bgcolor: 'white' }} />
       <Skeleton key='2' variant="rectangular" height="16em" sx={{ bgcolor: 'white' }} />
       <Skeleton key='3' variant="text" height="8em" sx={{ bgcolor: 'white' }} />
-      <Skeleton key='2' variant="rectangular" height="16em" sx={{ bgcolor: 'white' }} />
+      <Skeleton key='4' variant="rectangular" height="16em" sx={{ bgcolor: 'white' }} />
     </Stack>
   )
 
