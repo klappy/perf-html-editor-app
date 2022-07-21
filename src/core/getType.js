@@ -1,9 +1,9 @@
-export const getTypeFromPerf = ({ perfHtml, sequenceId }) => {
-  const sequenceHtml = perfHtml?.sequencesHtml[sequenceId];
+export const getTypeFromPerf = ({ htmlPerf, sequenceId }) => {
+  const sequenceHtml = htmlPerf?.sequencesHtml[sequenceId];
   let type = getTypeFromSequenceHtml({ sequenceHtml });
 
   if (type === 'main') {
-    const { h, toc, toc2 } = perfHtml?.headers;
+    const { h, toc, toc2 } = htmlPerf?.metadata?.document || {};
     type = toc || toc2 || h;
   };
 
@@ -11,7 +11,7 @@ export const getTypeFromPerf = ({ perfHtml, sequenceId }) => {
 };
 
 export const getTypeFromSequenceHtml = ({ sequenceHtml }) => {
-  let type = sequenceHtml?.match(/data-sequence[Tt]ype="(\w+)"/);
+  let type = sequenceHtml?.match(/data-type="(\w+)"/);
   type &&= type[1];
   return type;
 };

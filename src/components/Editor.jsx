@@ -4,10 +4,27 @@ import { Skeleton, Stack } from "@mui/material";
 import { AppContext } from "../hooks/App.context";
 import useLifecycleLog from "../hooks/useLifecycleLog";
 
-import PerfEditorWrapper from "./PerfEditorWrapper";
+import Section from "./Section";
+import SectionHeading from "./SectionHeading";
+import SectionBody from "./sectionBody";
+import { HtmlPerfEditor } from "@xelah/type-perf-html";
 
 export default function Editor() {
-  const { state: { sequenceIds, isSaving, isLoading } } = useContext(AppContext);
+  const {
+    state: {
+      sequenceIds,
+      isSaving,
+      isLoading,
+      htmlPerf,
+      sectionable,
+      blockable,
+      editable,
+      preview,
+      verbose,
+    },
+    actions: { addSequenceId, saveHtmlPerf },
+  } = useContext(AppContext);
+
   const sequenceId = sequenceIds.at(-1);
 
   useLifecycleLog(Editor);
@@ -20,11 +37,35 @@ export default function Editor() {
       <Skeleton key='3' variant="text" height="8em" sx={{ bgcolor: 'white' }} />
       <Skeleton key='4' variant="rectangular" height="16em" sx={{ bgcolor: 'white' }} />
     </Stack>
-  )
+  );
+
+  const props = {
+    htmlPerf: htmlPerf,
+    onHtmlPerf: saveHtmlPerf,
+    sequenceIds,
+    addSequenceId,
+    components: {
+      section: Section,
+      sectionHeading: SectionHeading,
+      sectionBody: SectionBody,
+    },
+    options: {
+      sectionable,
+      blockable,
+      editable,
+      preview
+    },
+    // handlers: {
+    //   onSectionClick,
+    //   onBlockClick
+    // },
+    decorators: {},
+    verbose,
+  };
 
   return (
     <div className="Editor" style={style}>
-      {sequenceId ? <PerfEditorWrapper sequenceId={sequenceId} /> : skeleton}
+      {sequenceId ? <HtmlPerfEditor {...props} /> : skeleton}
     </div>
   );
 };

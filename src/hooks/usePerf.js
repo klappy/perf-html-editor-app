@@ -5,57 +5,57 @@ import EpiteletePerfHtml from "epitelete-perf-html";
 
 export default function usePerf({ proskomma, ready, docSetId, bookCode, verbose }) {
   const [isSaving, startSaving] = useTransition();
-  const [perfHtml, setPerfHtml] = useState();
+  const [htmlPerf, setHtmlPerf] = useState();
 
-  const epiPerfHtml = useDeepCompareMemo(() => (
+  
+  const epiteletePerfHtml = useDeepCompareMemo(() => (
     ready && new EpiteletePerfHtml({ proskomma, docSetId, options: { historySize: 100 } })
-  ), [proskomma, ready, docSetId]);
-
-  useDeepCompareEffect(() => {
-    if (epiPerfHtml) {
-      epiPerfHtml.readHtml(bookCode).then((_perfHtml) => {
-        setPerfHtml(_perfHtml);
+    ), [proskomma, ready, docSetId]);
+    
+    useDeepCompareEffect(() => {
+      if (epiteletePerfHtml) {
+        epiteletePerfHtml.readHtml(bookCode).then((_htmlPerf) => {
+        setHtmlPerf(_htmlPerf);
       });
     }
-  }, [epiPerfHtml, bookCode]);
+  }, [epiteletePerfHtml, bookCode]);
 
-  const savePerfHtml = useDeepCompareCallback(({ sequenceId, sequenceHtml }) => {
-    let _perfHtml = { ...perfHtml };
-    _perfHtml.sequencesHtml[sequenceId] = sequenceHtml;
-
-    if (!isEqual(perfHtml, _perfHtml)) setPerfHtml(_perfHtml);
+  const saveHtmlPerf = useDeepCompareCallback(( _htmlPerf, { sequenceId, htmlSequence }) => {
+    const perfChanged = !isEqual(htmlPerf, _htmlPerf);
+    if (perfChanged) setHtmlPerf(_htmlPerf);
     
     startSaving(async () => {
-      const newPerfHtml = await epiPerfHtml?.writeHtml( bookCode, sequenceId, _perfHtml );
+      const newHtmlPerf = await epiteletePerfHtml?.writeHtml( bookCode, sequenceId, _htmlPerf );
       if (verbose) console.log({ info: "Saved sequenceId", bookCode, sequenceId });
   
-      if (!isEqual(perfHtml, newPerfHtml)) setPerfHtml(newPerfHtml);
+      const perfChanged = !isEqual(htmlPerf, newHtmlPerf);
+      if (perfChanged) setHtmlPerf(newHtmlPerf);
     });
-  }, [perfHtml, bookCode]);
+  }, [htmlPerf, bookCode]);
 
   const undo = async () => {
-    const newPerfHtml = await epiPerfHtml?.undoHtml(bookCode);
-    setPerfHtml(newPerfHtml);
+    const newPerfHtml = await epiteletePerfHtml?.undoHtml(bookCode);
+    setHtmlPerf(newPerfHtml);
   };
 
   const redo = async () => {
-    const newPerfHtml = await epiPerfHtml?.redoHtml(bookCode);
-    setPerfHtml(newPerfHtml);
+    const newPerfHtml = await epiteletePerfHtml?.redoHtml(bookCode);
+    setHtmlPerf(newPerfHtml);
   };
 
-  const canUndo = epiPerfHtml?.canUndo && epiPerfHtml?.canUndo(bookCode) || false;
-  const canRedo = epiPerfHtml?.canRedo && epiPerfHtml?.canRedo(bookCode) || false;
+  const canUndo = epiteletePerfHtml?.canUndo && epiteletePerfHtml?.canUndo(bookCode) || false;
+  const canRedo = epiteletePerfHtml?.canRedo && epiteletePerfHtml?.canRedo(bookCode) || false;
 
   const state = {
     bookCode,
-    perfHtml,
+    htmlPerf,
     canUndo,
     canRedo,
     isSaving,
   };
 
   const actions = {
-    savePerfHtml,
+    saveHtmlPerf,
     undo,
     redo
   };

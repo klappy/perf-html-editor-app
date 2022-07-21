@@ -5,16 +5,16 @@ import usePerf from "./usePerf";
 import useApplicationReducer from "./useApplicationReducer";
 
 const _documents = [
-  // { 
-  //   selectors: { org: 'bcs', lang: 'hi', abbr: 'irv' },
-  //   bookCode: 'tit',
-  //   url: '/bcs-hi_irv.tit.usfm',
-  // },
   { 
-    selectors: { org: 'unfoldingWord', lang: 'en', abbr: 'ult' },
-    bookCode: 'psa',
-    url: '/unfoldingWord-en_ult.psa.usfm',
+    selectors: { org: 'bcs', lang: 'hi', abbr: 'irv' },
+    bookCode: 'tit',
+    url: '/bcs-hi_irv.tit.usfm',
   },
+  // { 
+  //   selectors: { org: 'unfoldingWord', lang: 'en', abbr: 'ult' },
+  //   bookCode: 'psa',
+  //   url: '/unfoldingWord-en_ult.psa.usfm',
+  // },
 ];
 
 export default function useApplicationState(props) {
@@ -34,13 +34,13 @@ export default function useApplicationState(props) {
   const { state: perfState, actions: perfActions } = usePerf({
     proskomma, ready, docSetId, bookCode, verbose
   });
-  const { perfHtml } = perfState;
+  const { htmlPerf } = perfState;
 
   useDeepCompareEffect(() => {
-    if (perfHtml && perfHtml.mainSequenceId !== state.sequenceIds[0]) {
-      actions.setSequenceIds([perfHtml?.mainSequenceId]);
+    if (htmlPerf && htmlPerf.mainSequenceId !== state.sequenceIds[0]) {
+      actions.setSequenceIds([htmlPerf?.mainSequenceId]);
     };
-  }, [perfHtml, state.sequenceIds]);
+  }, [htmlPerf, state.sequenceIds]);
 
   return {
     state: {...state, ...perfState, isLoading },

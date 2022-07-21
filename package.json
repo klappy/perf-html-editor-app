@@ -9,14 +9,14 @@
     "@emotion/styled": "11.8.1",
     "@mui/icons-material": "5.8.0",
     "@mui/material": "5.8.0",
-    "epitelete-perf-html": "0.1.9",
+    "@xelah/type-perf-html": "^1.0.0-beta.8",
+    "epitelete-perf-html": "0.2.4",
     "lodash.isequal": "^4.5.0",
     "prop-types": "15.8.1",
-    "proskomma-react-hooks": "2.3.2",
+    "proskomma-react-hooks": "2.4.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-scripts": "4.0.0",
-    "simple-text-editor-rcl": "6.16.0",
     "use-deep-compare": "1.1.0"
   },
   "devDependencies": {

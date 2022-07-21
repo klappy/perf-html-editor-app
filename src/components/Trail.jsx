@@ -9,7 +9,7 @@ export default function Trail() {
 
   const { state, actions } = useContext(AppContext);
 
-  const { perfHtml, sequenceIds } = state || {};
+  const { htmlPerf, sequenceIds } = state || {};
   const { setSequenceIds } = actions || {};
 
   const onClickBreadcrumb = (index) => {
@@ -21,7 +21,7 @@ export default function Trail() {
       size="small"
       key={index + sequenceId}
       color={index + 1 === sequenceIds?.length ? "default" : "info"}
-      label={getTypeFromPerf({ perfHtml, sequenceId })}
+      label={getTypeFromPerf({ htmlPerf, sequenceId })}
       onClick={() => onClickBreadcrumb(index)}
       sx={{ textTransform: "capitalize", color: "white" }}
     />
